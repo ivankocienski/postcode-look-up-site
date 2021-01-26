@@ -1,0 +1,56 @@
+* {
+    padding: 0;
+    margin: 0;
+    list-style-type: none;
+}
+
+body {
+    background-color: #fff;
+    color: #555;
+    font-size: 18px;
+    font-family: sans-serif;
+}
+
+header {
+    background-color: #21c9c4;
+    padding: 1em;
+    padding-left: 4em;
+}
+
+header h1 {
+    color: #fff;
+    font-size: 3em;
+}
+
+main {
+    padding-left: 4em;
+}
+
+#info {
+    padding: 1em 0;
+}
+
+ul#store-list li {
+    margin-bottom: 0.75em;
+}
+
+ul#store-list li em { /* name */
+    font-style: normal;
+    font-size: 1.2em;
+    font-weight: bold;
+}
+
+ul#store-list li small { /* postcode */
+    font-size: 0.8em;
+    color: #777;
+}
+
+footer {
+    margin: 3em;
+}
+
+footer p {
+    text-align: center;
+    font-size: 0.9em;
+    color: #777;
+}

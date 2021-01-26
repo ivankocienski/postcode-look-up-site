@@ -1,11 +1,13 @@
 {% extends 'layout.html.jinja' -%}
 
 {% block content -%}
-<h1>Stores</h1>
-<p>Have found {{ store_count }} stores</p>
-<ul>
-{% for store in store_list -%}
-    <li><em>{{ store.name }}</em> <small>({{ store.postcode }})</small></li>
+<p id="info">Have found {{ store_count }} stores</p>
+<ul id="store-list">
+{% for store in store_list %}
+    <li>
+        <em>{{ store.name }}</em> <small>({{ store.postcode }})</small>
+        <p>Latitude={{ store.latitude }}, Longitude={{ store.longitude }}</p>
+    </li>
 {% endfor -%}
 </ul>
 {% endblock -%}
