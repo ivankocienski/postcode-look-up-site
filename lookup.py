@@ -1,40 +1,33 @@
 import sys
 import re
 
-import geopy.distance as distance
+
 
 import app.config as config
 import app.db as db
-import app.util as util
-
+import app.lib.postcode as postcode
+import app.lib.geo as geo
 
 if(len(sys.argv) < 2):
     print("Missing postcode value")
     sys.exit(-1)
 
-postcode = sys.argv[1]
-print(postcode)
+postcode_input = sys.argv[1]
+print(postcode_input)
 
-postcode_re = util.parse_regex(postcode)
+max_distance = 100000
+try:
+    max_distance = sys.argv[2]
+
+except IndexError:
+    pass
+
+print("max_distance=", max_distance)
+
+postcode_re = postcode.parse_regex(postcode_input)
 print(postcode_re)
 
-#stores = db.stores_find_all()
-#for store in stores:
-#    if util.postcode_match(postcode_re, store.postcode):
-#        print(store.id, store.name, store.postcode)
 
-#found_stores = [store for store in stores if util.postcode_match(postcode_re, store.postcode)]
-
-# print(found_stores)
-#for store in found_stores:
-#    print(store.id, store.name, store.postcode)
-
-def distance_between(centre, other):
-
-    coords_1 = (centre.longitude, centre.latitude)
-    coords_2 = (other.longitude, other.latitude)
-
-    return distance.distance(coords_1, coords_2).km
 
 found_stores = db.stores_find_like_postcode(postcode_re)
 print("found_stores.len=", len(found_stores))
@@ -50,15 +43,34 @@ else:
     print("Found [%s] '%s' (%s)" % (centre.id, centre.name, centre.postcode))
     print("    Using centre: latitude=%.2f, longitude=%.2f" % (centre.latitude, centre.longitude))
 
-    look_stores = db.stores_find_all()
+    look_stores = db.stores_find_all_with_location(centre.id)
 
     look_stores = list(map(
-        lambda store: (distance_between(centre, store), store),
-        look_stores
-    ))
+        lambda store: (geo.distance_between(centre, store), store),
+        look_stores))
 
-    look_stores.sort(key=lambda a: a[0])
-    look_stores = look_stores[1:11]
+    #print(look_stores)
+
+    # sys.exit(0)
+
+    look_stores = list(filter(
+        lambda result: result[0] < max_distance,
+        look_stores))
+
+    print(len(look_stores))
+    for result in look_stores:
+        distance, store = result
+        
+        print(
+            "      id=%s, name=%s, postcode=%s, distance=%s" % 
+            (store.id, store.name, store.postcode, distance))
+    
+    def store_key(a):
+        print(a, "l=", a[1].longitude) 
+        return a[1].longitude
+
+    look_stores.sort(key=store_key)
+    # look_stores = look_stores[1:]
 
     for result in look_stores:
         distance, store = result

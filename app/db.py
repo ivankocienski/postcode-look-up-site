@@ -1,7 +1,7 @@
 from sqlalchemy import create_engine
 
-from app import util, config
-# from app import config
+from app import config
+import app.lib.postcode as postcode
 
 db_engine = create_engine(config.db_url(), echo=True)
 
@@ -24,36 +24,21 @@ def stores_find_all():
     stores = [ Store(row) for row in conn.execute(sql)]
     return stores
 
+def stores_find_all_with_location(not_id):
+    conn = db_engine.connect()
+    sql = """
+        select 
+            id, name, postcode, latitude, longitude 
+        from 
+            stores 
+        where 
+            longitude is not null and latitude is not null and id != ?
+    """
+    stores = [ Store(row) for row in conn.execute(sql, (not_id,))]
+    return stores
+
 def stores_find_like_postcode(postcode_regex):
     return list(filter(
-        lambda store: store.latitude and util.postcode_match(postcode_regex, store.postcode),
+        lambda store: store.latitude and postcode.postcode_match(postcode_regex, store.postcode),
         stores_find_all()
     ))
-
-#def stores_find_like_postcode(postcode_regex):
-#    stores = stores_find_all()
-#
-#    found_stores = [ 
-#        store 
-#        for store in stores 
-#        if store.latitude and util.postcode_match(postcode_regex, store.postcode) 
-#    ]
-#
-#    return found_stores
-
-#def stores_insert(name, postcode):
-#    for store in data:
-#    name = store['name']
-#    postcode = store['postcode']
-#
-#    cursor.execute('insert into stores (name, postcode) values (?, ?)', (name, postcode))
-#    # print("store=", store)
-#
-#def stores_update_position(id, latitude, longitude):
-#    # def update_store(db, id, new_latitude, new_longitude):
-#    sql = 'update stores set latitude=?, longitude=? where id=?'
-#    args = (new_latitude, new_longitude, id)
-#
-#    cursor = db.cursor()
-#    cursor.execute(sql, args)
-#    db.commit()
