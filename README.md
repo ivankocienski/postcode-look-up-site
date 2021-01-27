@@ -15,3 +15,4 @@ things to use / look at
 - tox
 - requests: HTTP library
 - sqlalchemy
+- geopy

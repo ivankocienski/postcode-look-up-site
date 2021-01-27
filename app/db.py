@@ -1,6 +1,7 @@
 from sqlalchemy import create_engine
 
-from app import config
+from app import util, config
+# from app import config
 
 db_engine = create_engine(config.db_url(), echo=True)
 
@@ -11,7 +12,6 @@ class Store:
         self.postcode = values[2]
         self.latitude = values[3]
         self.longitude = values[4]
-        
 
 def stores_count():
     conn = db_engine.connect()
@@ -23,6 +23,23 @@ def stores_find_all():
     sql = 'select id, name, postcode, latitude, longitude from stores order by name'
     stores = [ Store(row) for row in conn.execute(sql)]
     return stores
+
+def stores_find_like_postcode(postcode_regex):
+    return list(filter(
+        lambda store: store.latitude and util.postcode_match(postcode_regex, store.postcode),
+        stores_find_all()
+    ))
+
+#def stores_find_like_postcode(postcode_regex):
+#    stores = stores_find_all()
+#
+#    found_stores = [ 
+#        store 
+#        for store in stores 
+#        if store.latitude and util.postcode_match(postcode_regex, store.postcode) 
+#    ]
+#
+#    return found_stores
 
 #def stores_insert(name, postcode):
 #    for store in data:
