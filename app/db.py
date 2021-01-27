@@ -37,8 +37,22 @@ def stores_find_all_with_location(not_id):
     stores = [ Store(row) for row in conn.execute(sql, (not_id,))]
     return stores
 
+def stores_insert(name, postcode):
+    sql = 'insert into stores (name, postcode) values (?, ?)'
+    args = (name, postcode)
+
+    conn = db_engine.connect()
+    conn.execute(sql, args)
+
+def stores_update_location(store, new_latitude, new_longitude):
+    sql = 'update stores set latitude=?, longitude=? where id=?'
+    args = (new_latitude, new_longitude, store.id)
+
+    conn = db_engine.connect()
+    conn.execute(sql, args)
+
+
 def stores_find_like_postcode(postcode_regex):
     return list(filter(
         lambda store: store.latitude and postcode.postcode_match(postcode_regex, store.postcode),
-        stores_find_all()
-    ))
+        stores_find_all()))
