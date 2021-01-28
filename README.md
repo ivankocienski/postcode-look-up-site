@@ -18,10 +18,10 @@ This is an application for presenting information about Locations and their post
 ## How to set up and run
 
     # create environment and install dependencies
-    > make env
+    > make -B env
 
     # build database
-    > make db
+    > make -B db
 
     > . ./venv/bin/activate
     # (you may need to update pip)

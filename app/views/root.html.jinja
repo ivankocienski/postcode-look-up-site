@@ -1,7 +1,8 @@
 {% extends 'layout.html.jinja' -%}
 
 {% block content -%}
-<p id="info">Have found {{ store_count }} stores</p>
+<p class="info">There are {{ store_count }} stores</p>
+
 <ul id="store-list">
 {% for store in store_list %}
     <li>

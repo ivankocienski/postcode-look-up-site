@@ -3,6 +3,9 @@ import re
 _postcode_splitter = re.compile(r'[\W_]+')
 
 def parse_regex(postcode_input):
+    if postcode_input is None:
+        return None
+        
     # escape and split into chunks
     input_parts = re.split(
         _postcode_splitter, 

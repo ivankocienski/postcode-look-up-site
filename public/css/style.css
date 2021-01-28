@@ -11,19 +11,78 @@ body {
     font-family: sans-serif;
 }
 
-header {
-    background-color: #21c9c4;
-    padding: 1em;
+a {
+    text-decoration: none;
+    font-style: normal;
+    color: inherit;
+}
+
+h1, h2, h3 { 
+    font-size: 1em; 
+    font-weight: normal;
+}
+
+header .bit {
     padding-left: 4em;
 }
 
+/* title */
+
+header #title {
+    background-color: #21c9c4;
+}
+
 header h1 {
+    padding: 1em 0 0.5em 0;
+}
+
+header h1 a {
     color: #fff;
     font-size: 3em;
 }
 
+header h1 a:hover {
+    text-decoration: underline;
+}
+
+/* header search */
+header #search {
+    background-color: #8eeeeb;
+}
+
+header #search form {
+    padding: 0.5em 0;
+}
+
+header #search label {
+    display: none;
+}
+
+/* form#search input {
+    display: inline-block;
+    padding: 0.5em;
+} */
+
+header #search input.text {
+    padding: 10px;
+}
+
+header #search input.postcode {
+    width: 30em;
+}
+header #search input.distance {
+    width: 5em;
+}
+
+header #search input.submit {
+    padding: 10px;
+}
+
+
+
 main {
-    padding-left: 4em;
+    padding: 0 4em;
+    margin-top: 1em;
 }
 
 #info {
@@ -45,6 +104,15 @@ ul#store-list li small { /* postcode */
     color: #777;
 }
 
+ul#store-list a {
+    color: #777;
+}
+
+ul#store-list a:hover {
+    color: #000;
+    text-decoration: underline;
+}
+
 footer {
     margin: 3em;
 }
@@ -53,4 +121,15 @@ footer p {
     text-align: center;
     font-size: 0.9em;
     color: #777;
+}
+
+h2 {
+    font-size: 2em;
+    font-weight: bold;
+    margin-bottom: 0.5em;
+}
+
+.info {
+    margin: 1em 0;
+    font-weight: bold;
 }

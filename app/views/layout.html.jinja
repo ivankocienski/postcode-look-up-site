@@ -6,7 +6,17 @@
 </head>
 <body>
 <header>
-    <h1>Stores</h1>
+    <div id='title' class='bit'>
+        <h1><a href='/'>Stores</a></h1>
+    </div>
+    <div id='search' class='bit'>
+        <form action="/search">
+            <label for="postcode">Search for postcode</label>
+            <input class='text postcode' type="text" name="postcode" value="{{postcode}}" title="postcode" placeholder='i.e. abc 123'/>
+            <input class='text distance' type="text" name="distance" value="{{distance}}" title="range distance" placeholder='in kilometers'/>
+            <input class='submit' type="submit" value="Postcode Search" />
+        </form>
+    </div>
 </header>
 <main>
     {% block content -%}{% endblock -%}
